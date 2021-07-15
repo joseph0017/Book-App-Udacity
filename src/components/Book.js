@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import * as BooksAPI from "../BooksAPI";
+import { update } from "../BooksAPI";
 
 export default class Book extends Component {
   handlechange = async (e) => {
     try {
-      const bookshelf = e.target.value;
+      const shelf = e.target.value;
       const book = this.props;
-      const result = await BooksAPI.update(book, bookshelf);
-      this.props.onMove(book, bookshelf, result);
+      const result = await update(book, shelf);
+      this.props.moveBook(book, shelf, result);
       console.log(result);
     } catch (err) {
       console.log(err);
@@ -31,10 +31,7 @@ export default class Book extends Component {
                 }}
               />
               <div className="book-shelf-changer">
-                <select
-                  onChange={this.handlechange}
-                  value={this.props.bookshelf}
-                >
+                <select onChange={this.handlechange} value={this.props.shelf}>
                   <option value="move" disabled>
                     Move to...
                   </option>
@@ -47,7 +44,7 @@ export default class Book extends Component {
             </div>
             <div className="book-title">{this.props.title}</div>
             <div className="book-authors">
-              {this.props.authors ? this.props.authors[0] : "Not Found"}
+              {this.props.authors ? this.props.authors[0] : "No Author"}
             </div>
           </div>
         </li>
