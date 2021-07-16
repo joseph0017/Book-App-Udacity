@@ -4,7 +4,7 @@ import "./App.css";
 import { Switch, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import SearchPage from "./pages/SearchPage";
-import Provider, { MyContext } from "./provider";
+import Provider, { BookContext } from "./provider";
 
 class BooksApp extends React.Component {
   render() {
@@ -16,17 +16,17 @@ class BooksApp extends React.Component {
               exact
               path="/"
               render={() => (
-                <MyContext.Consumer>
+                <BookContext.Consumer>
                   {(context) => <HomePage {...context} />}
-                </MyContext.Consumer>
+                </BookContext.Consumer>
               )}
             />
             <Route
               path="/{SearchPage}"
               render={() => (
-                <MyContext.Consumer>
+                <BookContext.Consumer>
                   {(context) => <SearchPage {...context} />}
-                </MyContext.Consumer>
+                </BookContext.Consumer>
               )}
             />
           </Switch>
