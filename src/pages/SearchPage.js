@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { search, getAll } from "../BooksAPI";
 import Book from "../components/Book";
+import * as BooksAPI from "../BooksAPI";
 
 export default class SearchPage extends Component {
   constructor(props) {
@@ -15,8 +15,8 @@ export default class SearchPage extends Component {
 
   async componentDidMount() {
     try {
-      const books = await getAll();
-      this.props.addBooks(books);
+      const books = await BooksAPI.getAll();
+      this.props.addingNewBooks(books);
     } catch (err) {
       console.log(err);
     }
@@ -28,7 +28,7 @@ export default class SearchPage extends Component {
       this.setState({ query });
 
       if (query.trim()) {
-        const results = await search(query);
+        const results = await BooksAPI.search(query);
         if (results.err) {
           this.setState({ books: [] });
         } else {
@@ -62,21 +62,17 @@ export default class SearchPage extends Component {
           <ol className="books-grid">
             {this.state.books.length > 0 &&
               this.state.books.map((book) => {
-                const foundShelf = this.props.books.find(
+                const foundBookShelf = this.props.books.find(
                   (searchBook) => searchBook.id === book.id
                 );
-                if (foundShelf) {
-                  book.shelf = foundShelf.shelf;
+                if (foundBookShelf) {
+                  book.shelf = foundBookShelf.shelf;
                 } else {
                   book.shelf = "none";
                 }
 
                 return (
-                  <Book
-                    key={book.id}
-                    {...book}
-                    moveBook={this.props.moveBook}
-                  />
+                  <Book key={book.id} {...book} onMove={this.props.onMove} />
                 );
               })}
             {this.state.books.length === 0 && (
