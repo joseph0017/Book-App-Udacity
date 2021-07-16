@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import BookShelf from "../components/BookShelf";
 import { Link } from "react-router-dom";
-import { getAll } from "../BooksAPI";
+import * as BooksAPI from "../BooksAPI";
 
 export default class HomePage extends Component {
   async componentDidMount() {
     try {
-      const books = await getAll();
-      this.props.addBooks(books);
+      const books = await BooksAPI.getAll();
+      this.props.addingNewBooks(books);
     } catch (err) {
       console.log(err);
     }
@@ -22,17 +22,17 @@ export default class HomePage extends Component {
           <BookShelf
             title="Currently Reading"
             books={this.props.currentlyReading}
-            moveBook={this.props.moveBook}
+            onMove={this.props.onMove}
           />
           <BookShelf
             title="Want to Read"
             books={this.props.wantToRead}
-            moveBook={this.props.moveBook}
+            onMove={this.props.onMove}
           />
           <BookShelf
             title="Read"
             books={this.props.read}
-            moveBook={this.props.moveBook}
+            onMove={this.props.onMove}
           />
         </div>
         <div className="open-search">
