@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-export const MyContext = React.createContext();
+export const BookContext = React.createContext();
 
 export default class index extends Component {
   constructor() {
@@ -10,7 +10,7 @@ export default class index extends Component {
       currentlyReading: [],
       wantToRead: [],
       read: [],
-      addBooks: (books) => {
+      addingNewBooks: (books) => {
         const currentlyReading = books.filter(
           (book) => book.shelf === "currentlyReading"
         );
@@ -19,27 +19,27 @@ export default class index extends Component {
         this.setState({ books, currentlyReading, wantToRead, read });
       },
 
-      moveBook: (book, newShelf, allShelfs) => {
+      onMove: (book, newShelf, allShelfs) => {
         console.log(newShelf);
         const newBooks = this.state.books.map((allBooks) => {
-          const foundID = allShelfs[newShelf].find(
+          const foundBookID = allShelfs[newShelf].find(
             (bookID) => bookID === allBooks.id
           );
-          if (foundID) {
+          if (foundBookID) {
             allBooks.shelf = newShelf;
           }
           return allBooks;
         });
-        this.state.addBooks(newBooks);
+        this.state.addingNewBooks(newBooks);
       },
     };
   }
 
   render() {
     return (
-      <MyContext.Provider value={{ ...this.state }}>
+      <BookContext.Provider value={{ ...this.state }}>
         {this.props.children}
-      </MyContext.Provider>
+      </BookContext.Provider>
     );
   }
 }
