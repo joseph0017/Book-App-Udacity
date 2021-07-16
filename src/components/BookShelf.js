@@ -11,11 +11,7 @@ export default class BookShelf extends Component {
             <ol className="books-grid">
               {this.props.books &&
                 this.props.books.map((book) => (
-                  <Book
-                    key={book.id}
-                    {...book}
-                    moveBook={this.props.moveBook}
-                  />
+                  <Book key={book.id} {...book} onMove={this.props.onMove} />
                 ))}
             </ol>
           </div>
